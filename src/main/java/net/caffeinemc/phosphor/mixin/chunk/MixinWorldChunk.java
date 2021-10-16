@@ -1,28 +1,30 @@
 package net.caffeinemc.phosphor.mixin.chunk;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.HeightLimitView;
+import net.minecraft.world.TickScheduler;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
+import net.minecraft.world.chunk.UpgradeData;
 import net.minecraft.world.chunk.WorldChunk;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 @Mixin(WorldChunk.class)
-public abstract class MixinWorldChunk {
-    @Shadow
-    @Final
-    private ChunkPos pos;
-
-    @Shadow
-    @Final
-    private ChunkSection[] sections;
+public abstract class MixinWorldChunk extends Chunk {
+    public MixinWorldChunk(ChunkPos chunkPos, UpgradeData upgradeData, HeightLimitView heightLimitView, Registry<Biome> registry, long l, ChunkSection[] chunkSections, TickScheduler<Block> tickScheduler, TickScheduler<Fluid> tickScheduler2) {
+        super(chunkPos, upgradeData, heightLimitView, registry, l, chunkSections, tickScheduler, tickScheduler2);
+    }
 
     /**
      * This implementation avoids iterating over empty chunk sections and uses direct access to read out block states
@@ -39,7 +41,7 @@ public abstract class MixinWorldChunk {
         int startX = this.pos.getStartX();
         int startZ = this.pos.getStartZ();
 
-        ChunkSection[] chunkSections = this.sections;
+        ChunkSection[] chunkSections = this.sectionArray;
 
         for (ChunkSection section : chunkSections) {
             if (section == null || section.isEmpty()) {

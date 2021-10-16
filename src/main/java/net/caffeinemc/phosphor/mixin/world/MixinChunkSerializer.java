@@ -20,14 +20,14 @@ import net.minecraft.world.poi.PointOfInterestStorage;
 @Mixin(ChunkSerializer.class)
 public abstract class MixinChunkSerializer {
     @Inject(
-        method = "deserialize(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/structure/StructureManager;Lnet/minecraft/world/poi/PointOfInterestStorage;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/world/chunk/ProtoChunk;",
+        method = "deserialize(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/world/poi/PointOfInterestStorage;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/world/chunk/ProtoChunk;",
         at = @At(
             value = "INVOKE_ASSIGN",
             target = "Lnet/minecraft/world/chunk/ChunkManager;getLightingProvider()Lnet/minecraft/world/chunk/light/LightingProvider;",
             ordinal = 0
         )
     )
-    private static void loadLightmaps(final ServerWorld world, final StructureManager structureManager, final PointOfInterestStorage poiStorage, final ChunkPos pos, final NbtCompound tag, final CallbackInfoReturnable<ProtoChunk> ci) {
+    private static void loadLightmaps(final ServerWorld world, final PointOfInterestStorage poiStorage, final ChunkPos pos, final NbtCompound tag, final CallbackInfoReturnable<ProtoChunk> ci) {
         final NbtCompound levelTag = tag.getCompound("Level");
 
         // Load lightmaps of pre_light chunks unless erasing cached data
