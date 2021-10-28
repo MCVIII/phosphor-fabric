@@ -7,8 +7,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.HeightLimitView;
-import net.minecraft.world.TickScheduler;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.class_6752; // net/minecraft/world/chunk/BlendingData
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.UpgradeData;
@@ -22,8 +22,8 @@ import java.util.stream.Stream;
 
 @Mixin(WorldChunk.class)
 public abstract class MixinWorldChunk extends Chunk {
-    public MixinWorldChunk(ChunkPos chunkPos, UpgradeData upgradeData, HeightLimitView heightLimitView, Registry<Biome> registry, long l, ChunkSection[] chunkSections, TickScheduler<Block> tickScheduler, TickScheduler<Fluid> tickScheduler2) {
-        super(chunkPos, upgradeData, heightLimitView, registry, l, chunkSections, tickScheduler, tickScheduler2);
+    public MixinWorldChunk(ChunkPos chunkPos, UpgradeData upgradeData, HeightLimitView heightLimitView, Registry<Biome> registry, long l, ChunkSection[] chunkSections, class_6752 blendingData) {
+        super(chunkPos, upgradeData, heightLimitView, registry, l, chunkSections, blendingData);
     }
 
     /**
